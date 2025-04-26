@@ -101,3 +101,7 @@ pnpm-debug.log*
 
 # IDE specific files
 .idea/ 
+frontend/package.json
+frontend/package-lock.json
+frontend/package.json
+frontend/package.json
