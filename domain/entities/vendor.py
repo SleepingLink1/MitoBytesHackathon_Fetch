@@ -3,9 +3,9 @@ from uuid import UUID
 from attributes.contact_info import ContactInfo
 from entities.pet import Pet
 from typing import List
+from relationships.offering import Offering
 class Vendor(BaseModel):
     id: UUID 
     name: str
-    location: str
-    contact_info: ContactInfo
-    pets: List[Pet] 
+    contactInfo: ContactInfo
+    offerings: List[Offering]

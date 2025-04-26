@@ -8,5 +8,6 @@ class Customer(BaseModel):
     id: UUID
     name:str
     contactInfo:ContactInfo
-    pet_restrictions: PetCharacteristic
+    petRestrictions: PetCharacteristic
+    currentPets: List[Pet]
     

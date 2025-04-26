@@ -36,3 +36,12 @@ class MaintenanceLevel(str, Enum):
     LOW = "Low"
     MEDIUM = "Medium"
     HIGH = "High"
+    
+class Availability(str,Enum):
+    AVAILABLE = "Available"
+    ADOPTED = "Adopted"
+    UNLISTED = "Unlisted"
+    
+class Sex(str, Enum):
+    MALE = "Male"
+    FEMALE = "Female"
