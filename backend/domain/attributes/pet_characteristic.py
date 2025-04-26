@@ -12,4 +12,3 @@ class PetCharacteristic(BaseModel):
     maintenance: Optional[MaintenanceLevel]
     breed: Optional[str]
     species: str
-    hypoallergenic: Optional[Literal["Y", "N"]]
