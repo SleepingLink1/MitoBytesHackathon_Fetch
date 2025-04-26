@@ -67,7 +67,39 @@ export default function PetSurveyForm({ onAnswersChange }: PetSurveyFormProps) {
     });
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
+    const response = await fetch("http://localhost:8000/submit-survey", {
+      method: "POST",
+      body: JSON.stringify({
+        "grooming_spending": "$0-50",
+        "running_miles": "0-1",
+        "couch_fur_happiness": 0,
+        "vacuum_times": "0",
+        "happy_with_large_dogs": true,
+        "happy_with_small_dogs": true,
+        "hoa_pet_contract": "string",
+        "other_pets": [
+          "cat"
+        ],
+        "kids_around_friend": true,
+        "travel_distance": "0 miles",
+        "home_address": "string",
+        "paid_transport": true,
+        "envisioned_age": "0-5months",
+        "plan_to_travel": true,
+        "journey_payment": "$0-$50",
+        "food_spending": 0,
+        "has_yard": true,
+        "personality_traits": "string",
+        "active_dogs_enjoyment": "very much",
+        "value_compatibility": "very much",
+        "cute_dogs": "very much",
+        "intact_requirement": true,
+        "only_rescue": true,
+        "gender_preference": "a female"
+      }, null, 2)
+    });
+    console.log(response);
     e.preventDefault();
     console.log("Submitting JSON:", JSON.stringify(answers, null, 2));
   }
@@ -111,6 +143,7 @@ export default function PetSurveyForm({ onAnswersChange }: PetSurveyFormProps) {
           )}
         </div>
       ))}
+      <input type="submit" />
     </form>
   );
 }
