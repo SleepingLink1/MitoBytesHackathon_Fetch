@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import json
 
 from app.services.questionaire import *
+from app.services.questionaireIntakeModel import *
 
 from app.routers import llm
 import PetFinderAPI
@@ -100,7 +101,7 @@ def read_test():
         active_dogs_enjoyment=ActiveDogsEnjoyment.VERY_MUCH,
         value_compatibility=CompatibilityValue.SOMEWHAT,
         cute_dogs=CuteDogsLove.NEUTRAL,
-        intact_requirement=None,  # None indicates "doesn't matter"
+        intact_requirement=None,  
         only_rescue=True,
         gender_preference=GenderPreference.FEMALE
     )
@@ -131,6 +132,14 @@ def read_survey():
 def read_test(survey: PetAdoptionSurvey):
 
     return survey
+
+
+@app.post("/submit-survey")
+async def post_survey(survey: QuestionaireModel):
+    try:
+        return {"message": "Survey posted successfully!"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"LLM error: {str(e)}")
 
 
 # Include routers
