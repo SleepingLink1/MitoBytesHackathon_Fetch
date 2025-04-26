@@ -1,19 +1,11 @@
 {
-    "id": "e78f7f52-aec3-4ae9-9e30-462384395a82",
-    "name": "Max",
+    "activity_level": "High",
+    "size": "Small",
+    "temperament": "Excitable",
+    "fur_type": "Short",
+    "intelligence": "Medium",
+    "maintenance": "Low",
+    "breed": "Unknown",
     "species": "Dog",
-    "breed": "Corgi",
-    "sex": "Male",
-    "age": 3,
-    "petChar": {
-        "activity_level": "Medium",
-        "size": "Small",
-        "temperament": "Calm",
-        "fur_type": "Short",
-        "intelligence": "Medium",
-        "maintenance": "Low",
-        "breed": "Corgi",
-        "species": "Dog",
-        "hypoallergenic": "N"
-    }
+    "hypoallergenic": "Y"
 }
