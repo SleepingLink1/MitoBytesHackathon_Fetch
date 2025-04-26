@@ -84,7 +84,7 @@ function App() {
         {page == 2 ? <>
           <header className="mb-8 text-center">
             <h1 className="text-xl font-bold text-white header">Hi, Welcome to Fetch!</h1>
-            <p className="text-white"><span className="blue text-bold">You deserve to be happy!</span> I'd love to help you find your future best friend...</p>
+            <p className="text-white"><span className="blue text-bold">You deserve to be happy!</span> Everyone knows life is just better with a dog. When you’re ready, I’d love to help you find your future best friend...</p>
             <p className="text-white"></p>
           </header>
 
