@@ -77,27 +77,7 @@ function App() {
             <p className="text-white">First I'll match you with your ideal breed for maximum happiness..</p>
           </header>
 
-          <div className="col-span-full">
-            <div className="flex justify-center">
-              <div className="max-w-[80%] p-3 rounded-lg bg-gray-200 text-gray-800">
-                <p className="whitespace-pre-wrap break-words">
-                <label htmlFor="about" className="block text-sm/6 font-medium text-gray-900">How much are you spending on grooming?</label>
-                  <div className="mt-2">
-                    <div>
-                      $0-50 <input type="radio" name="grooming" value="1" />
-                    </div>
-                    <div>
-                      $50-100 <input type="radio" name="grooming" value="2" />
-                    </div>
-                    <div>
-                    $100+ <input type="radio" name="grooming" value="3" />
-                    </div>
-                  </div>
-                </p>
-              </div>
-            </div>
-          </div>
-          
+          <PetSurveyForm onAnswersChange={handleAnswersChange} />
 
           {allQuestionsAnswered ? <>
             <button
