@@ -90,9 +90,6 @@ class PetAdoptionSurvey(BaseModel):
     happy_with_small_dogs: bool = Field(
         ..., description="When I hang out with or see small dogs I feel happy."
     )
-    hoa_pet_contract: str = Field(
-        ..., description="Add a screenshot of your HOA pet contract here (e.g., filepath or URL)."
-    )
     other_pets: List[OtherPets] = Field(
         ..., description="I have other pets or plan to have other pets."
     )
