@@ -1,25 +1,34 @@
 import { useEffect, useState } from "react";
 
-type ResponseType = "boolean" | "list" | "number";
+type ResponseType = "options" | "string" | "boolean" | "number";
+
+interface Option {
+  key: string;
+  value: string;
+}
 
 interface Question {
   name: string;
   description: string;
   responseType: ResponseType;
-  options: string[] | null;
+  options: Option[] | null;
 }
 
 interface Answers {
   [key: string]: boolean | string | number;
 }
 
-export default function PetSurveyForm() {
+interface PetSurveyFormProps {
+  onAnswersChange: (answers: Answers) => void;
+}
+
+export default function PetSurveyForm({ onAnswersChange }: PetSurveyFormProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<Answers>({});
 
   useEffect(() => {
     async function fetchQuestions() {
-      const response = await fetch("/api/questions"); // <-- adjust API endpoint
+      const response = await fetch("/api/questions"); // <-- Adjust API endpoint
       const data: Question[] = await response.json();
       setQuestions(data);
     }
@@ -28,28 +37,19 @@ export default function PetSurveyForm() {
   }, []);
 
   function handleChange(name: string, value: boolean | string | number) {
-    setAnswers((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setAnswers((prev) => {
+      const updated = {
+        ...prev,
+        [name]: value
+      };
+      onAnswersChange(updated);
+      return updated;
+    });
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
-    const finalPayload = { ...answers };
-    console.log("Submitting JSON:", JSON.stringify(finalPayload, null, 2));
-
-    // Example: send to API
-    /*
-    fetch('/api/submit-responses', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(finalPayload),
-    });
-    */
+    console.log("Submitting JSON:", JSON.stringify(answers, null, 2));
   }
 
   return (
@@ -66,7 +66,16 @@ export default function PetSurveyForm() {
             />
           )}
 
-          {q.responseType === "list" && q.options && (
+          {(q.responseType === "string" || q.responseType === "number") && (
+            <input
+              type="text"
+              value={answers[q.name] !== undefined ? answers[q.name] : ""}
+              onChange={(e) => handleChange(q.name, e.target.value)}
+              className="border p-2 rounded"
+            />
+          )}
+
+          {q.responseType === "options" && q.options && (
             <select
               value={(answers[q.name] as string) || ""}
               onChange={(e) => handleChange(q.name, e.target.value)}
@@ -74,33 +83,14 @@ export default function PetSurveyForm() {
             >
               <option value="">Select an option</option>
               {q.options.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
+                <option key={opt.key} value={opt.key}>
+                  {opt.value}
                 </option>
               ))}
             </select>
           )}
-
-          {q.responseType === "number" && (
-            <input
-              type="number"
-              value={answers[q.name] !== undefined ? answers[q.name] : ""}
-              onChange={(e) => handleChange(q.name, Number(e.target.value))}
-              className="border p-2 rounded"
-            />
-          )}
         </div>
       ))}
-
-      <button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Submit
-      </button>
-
-      <pre className="mt-6 bg-gray-100 p-4 rounded">{JSON.stringify(answers, null, 2)}</pre>
     </form>
   );
 }
-

@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useAsk } from './hooks/useAsk'
 import ChatBubble from './components/ChatBubble'
+import PetSurveyForm from './components/PetSurveyForm'
 
 function App() {
   const [question, setQuestion] = useState('')
+  const [surveyAnswers, setSurveyAnswers] = useState({});
   const [submittedQuestion, setSubmittedQuestion] = useState('');
   const { ask, answer, isLoading, error } = useAsk()
 
@@ -30,6 +32,14 @@ function App() {
     setBreed(breed)
     setMatches(matches)
     setPage(5)
+  }
+
+  const submitAnswer = () => {
+    changePage(4)
+  }
+
+  function handleAnswersChange(updatedAnswers: Record<string, boolean | string | number>) {
+    setSurveyAnswers(updatedAnswers);
   }
 
   return (
@@ -107,28 +117,13 @@ function App() {
             <p className="text-white">First I'll match you with your ideal breed for maximum happiness..</p>
           </header>
 
-          <div className="col-span-full">
-            <label htmlFor="about" className="block text-sm/6 font-medium text-gray-900">How much are you spending on grooming?</label>
-            <div className="mt-2">
-              <div>
-                $0-50 <input type="radio" name="grooming" value="1" />
-              </div>
-              <div>
-                $50-100 <input type="radio" name="grooming" value="2" />
-              </div>
-              <div>
-              $100+ <input type="radio" name="grooming" value="3" />
-              </div>
-            </div>
-            <p className="mt-3 text-sm/6 text-gray-600">Write a few sentences about yourself.</p>
-          </div>
-          
+          <PetSurveyForm onAnswersChange={handleAnswersChange} />
 
           {allQuestionsAnswered ? <>
             <button
               type="submit"
               className="py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 disabled:opacity-50"
-              onClick={() => changePage(4)}
+              onClick={() => submitAnswer()}
             >
               First we will match you with your ideal breed for maximium happiness
             </button>
