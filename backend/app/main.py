@@ -46,15 +46,31 @@ def get_pets():
     filtered_animals = []
     for animal in animals:
         filtered_animals.append({
+            "id": animal.get("id"),
+            "name": animal.get("name"),
           "species": animal.get("species"),
             "breeds": animal.get("breeds"),
-            "coat": animal.get("coat"),
-            "size": animal.get("size"),
-            "environment": animal.get("environment"),
-            "distance": animal.get("distance"),
+            "sex": animal.get("sex"),
             "age": animal.get("age"),
-            "tags": animal.get("tags"),
-            "gender": animal.get("gender")
+            "petChar":{
+                "activity_level": animal.get("activity_level"),
+                "size": animal.get("size"),
+                "temperament": animal.get("temperament"),
+                "fur_type": animal.get("coat"),
+                "intelligence": animal.get("intelligence"),
+                "maintenance": animal.get("maintenance"),
+                "breed": animal.get("breeds"),
+                "species": animal.get("species"),
+                "hypoallergenic": animal.get("hypoallergenic"),
+            }
+
+            # "coat": animal.get("coat"),
+            # "size": animal.get("size"),
+            # "environment": animal.get("environment"),
+            # "distance": animal.get("distance"),
+            # "age": animal.get("age"),
+            # "tags": animal.get("tags"),
+            # "gender": animal.get("gender")
          
         })
 
