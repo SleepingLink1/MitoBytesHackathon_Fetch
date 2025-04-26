@@ -22,6 +22,7 @@ def read_root():
     return {"message": "Welcome to the LLM API!"}
 
 @app.get("/getPets/", tags=["General"])
+
 def read_root():
     search_params = {
         'type': 'dog',
@@ -53,6 +54,7 @@ def read_root():
 
 
  
+
 
 
 # Include routers
