@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import json
+
 from app.services.questionaire import *
 from app.services.questionaireIntakeModel import *
 
 from app.routers import llm
+import PetFinderAPI
 
 app = FastAPI(
     title="LLM API",
@@ -26,6 +29,53 @@ app.add_middleware(
 def read_root():
     """Returns a welcome message."""
     return {"message": "Welcome to the LLM API!"}
+
+
+@app.get("/getPets/", tags=["General"])
+def get_pets():
+    search_params = {
+        'type': 'dog',
+        'location': 'Milwaukee, WI',
+        'limit': 5,
+        'distance': 10,
+        'status': 'adoptable' # Only show adoptable pets
+    }
+    message = PetFinderAPI.make_api_call("/animals", params=search_params)
+    animals = message.get("animals", [])
+
+    # Now filter the fields you care about
+    filtered_animals = []
+    for animal in animals:
+        filtered_animals.append({
+            "id": animal.get("id"),
+            "name": animal.get("name"),
+          "species": animal.get("species"),
+            "breeds": animal.get("breeds"),
+            "sex": animal.get("sex"),
+            "age": animal.get("age"),
+            "petChar":{
+                "activity_level": animal.get("activity_level"),
+                "size": animal.get("size"),
+                "temperament": animal.get("temperament"),
+                "fur_type": animal.get("coat"),
+                "intelligence": animal.get("intelligence"),
+                "maintenance": animal.get("maintenance"),
+                "breed": animal.get("breeds"),
+                "species": animal.get("species"),
+                "hypoallergenic": animal.get("hypoallergenic"),
+            }
+
+            # "coat": animal.get("coat"),
+            # "size": animal.get("size"),
+            # "environment": animal.get("environment"),
+            # "distance": animal.get("distance"),
+            # "age": animal.get("age"),
+            # "tags": animal.get("tags"),
+            # "gender": animal.get("gender")
+         
+        })
+
+    return {"pets": filtered_animals}
 
 @app.get("/test", tags=["General"], response_model=PetAdoptionSurvey)
 def read_test():
@@ -55,7 +105,34 @@ def read_test():
         only_rescue=True,
         gender_preference=GenderPreference.FEMALE
     )
+
+@app.get("/survey", tags=["Pet Adoption Survey"])
+def read_survey(): 
+    fields = PetAdoptionSurvey.__annotations__
+    response = []
+
+    for field_name, field_type in fields.items():
+        field_info = PetAdoptionSurvey.__fields__.get(field_name)
+        if isinstance(field_type, type) and issubclass(field_type, Enum):
+            enum_values = [{"key": e.name, "value": e.value} for e in field_type]  # Extract enum values
+        else:
+            enum_values = None
+
+        response_item = {
+            "name": field_name,
+            "description": field_info.description if field_info else "",
+            "responseType": "options" if enum_values else "boolean" if field_type == bool else "string",
+            "options": enum_values,
+        }
+        response.append(response_item)
+
+    return response
+
+@app.post("/test", tags=["General"], response_model=PetAdoptionSurvey)
+def read_test(survey: PetAdoptionSurvey):
+
     return survey
+
 
 @app.post("/submit-survey")
 async def post_survey(survey: QuestionaireModel):

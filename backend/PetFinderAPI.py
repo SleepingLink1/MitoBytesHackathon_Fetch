@@ -94,7 +94,7 @@ def make_api_call(endpoint, params=None):
         return None
 
 
-'''
+
 # --- Main Execution Example ---
 if __name__ == "__main__":
     print("--- Fetching dogs near Milwaukee, WI ---")
@@ -121,4 +121,3 @@ if __name__ == "__main__":
         print("\nNo animals found matching the criteria.")
     else:
         print("\nFailed to retrieve data from Petfinder API.")
-'''
