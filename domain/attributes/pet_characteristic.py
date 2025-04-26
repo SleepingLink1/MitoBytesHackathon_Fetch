@@ -13,3 +13,5 @@ class PetCharacteristic(BaseModel):
     breed: Optional[str]
     species: str
     hypoallergenic: Optional[Literal["Y", "N"]]
+    intact: Optional[Bool]      # 'intact' means not spayed / not neutered
+
