@@ -20,7 +20,6 @@ class Temperament(str, Enum):
 
 
 class FurType(str, Enum):
-    NONE = "None"
     SHORT = "Short"
     MEDIUM = "Medium"
     LONG = "Long"
