@@ -28,8 +28,28 @@ export default function PetSurveyForm({ onAnswersChange }: PetSurveyFormProps) {
 
   useEffect(() => {
     async function fetchQuestions() {
-      const response = await fetch("/api/questions"); // <-- Adjust API endpoint
-      const data: Question[] = await response.json();
+      // const response = await fetch("/api/questions"); // <-- Adjust API endpoint
+      //const data: Question[] = await response.json();
+      const data = [
+        {
+          name: "weight_limit",
+          description: "do you have a weight restriction for your dog?",
+          responseType: "boolean",
+          options: null
+        },
+        {
+          name: "coffee",
+          description: "what coffees does your dog like?",
+          responseType: "options",
+          options: [ { "key":'sumatra', "value":'sumatra'}, {'key':'columbian','value':'columbian'}]
+        },
+        {
+          name: "how_many",
+          description: "how many dogs?",
+          responseType: "number",
+          options: null
+        },
+        ];
       setQuestions(data);
     }
 
