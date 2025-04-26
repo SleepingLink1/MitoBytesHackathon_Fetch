@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+import json
 from app.routers import llm
+import PetFinderAPI
 
 app = FastAPI(title="LLM API")
 
@@ -20,17 +21,36 @@ def read_root():
     """Returns a welcome message."""
     return {"message": "Welcome to the LLM API!"}
 
-@app.get("/getPets", tags=["General"])
+@app.get("/getPets/", tags=["General"])
 def read_root():
     search_params = {
         'type': 'dog',
         'location': 'Milwaukee, WI',
         'limit': 5,
-        'distance': 20,
+        'distance': 10,
         'status': 'adoptable' # Only show adoptable pets
     }
     message = PetFinderAPI.make_api_call("/animals", params=search_params)
-    return {"message": message}
+    animals = message.get("animals", [])
+
+    # Now filter the fields you care about
+    filtered_animals = []
+    for animal in animals:
+        filtered_animals.append({
+          "species": animal.get("species"),
+            "breeds": animal.get("breeds"),
+            "coat": animal.get("coat"),
+            "size": animal.get("size"),
+            "environment": animal.get("environment"),
+            "distance": animal.get("distance"),
+            "age": animal.get("age"),
+            "tags": animal.get("tags"),
+            "gender": animal.get("gender")
+         
+        })
+
+    return {"pets": filtered_animals}
+
 
  
 
