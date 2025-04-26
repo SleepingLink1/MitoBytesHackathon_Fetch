@@ -32,12 +32,12 @@ def get_petfinder_token():
 
     try:
         print("Requesting new Petfinder token...")
-        response = requests.post(TOKEN_URL, data=data, timeout=10) # Added timeout
+        response = requests.post(TOKEN_URL, data=data, timeout=10)
         response.raise_for_status()
 
         token_data = response.json()
         current_time = time.time()
-        # Store token and calculate expiration time (with a 60s buffer)
+
         token_info["access_token"] = token_data['access_token']
         token_info["expires_at"] = current_time + token_data['expires_in'] - 60
         # print(f"Token expires around: {time.ctime(token_info['expires_at'])}") # Uncomment for debugging
@@ -74,11 +74,11 @@ def make_api_call(endpoint, params=None):
         return None
 
     headers = {'Authorization': f'Bearer {access_token}'}
-    url = f"{API_BASE_URL}{endpoint}" # Construct full URL
+    url = f"{API_BASE_URL}{endpoint}"
 
     try:
         # print(f"Calling: {url} with params: {params}") # Uncomment for debugging
-        response = requests.get(url, headers=headers, params=params, timeout=15) # Added timeout
+        response = requests.get(url, headers=headers, params=params, timeout=15) 
         response.raise_for_status()
         return response.json()
 
