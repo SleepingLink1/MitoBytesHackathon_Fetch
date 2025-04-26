@@ -104,6 +104,32 @@ def read_test():
         only_rescue=True,
         gender_preference=GenderPreference.FEMALE
     )
+
+@app.get("/survey", tags=["Pet Adoption Survey"])
+def read_survey(): 
+    fields = PetAdoptionSurvey.__annotations__
+    response = []
+
+    for field_name, field_type in fields.items():
+        field_info = PetAdoptionSurvey.__fields__.get(field_name)
+        if isinstance(field_type, type) and issubclass(field_type, Enum):
+            enum_values = [{"key": e.name, "value": e.value} for e in field_type]  # Extract enum values
+        else:
+            enum_values = None
+
+        response_item = {
+            "name": field_name,
+            "description": field_info.description if field_info else "",
+            "responseType": "options" if enum_values else "boolean" if field_type == bool else "string",
+            "options": enum_values,
+        }
+        response.append(response_item)
+
+    return response
+
+@app.post("/test", tags=["General"], response_model=PetAdoptionSurvey)
+def read_test(survey: PetAdoptionSurvey):
+
     return survey
 
 
