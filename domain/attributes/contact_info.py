@@ -11,7 +11,7 @@ class Address(BaseModel):
     country: str
 
 
-class Contact(BaseModel):
+class ContactInfo(BaseModel):
     email: EmailStr
     phone: str
     address: Address
