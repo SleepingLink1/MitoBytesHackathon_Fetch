@@ -31,8 +31,7 @@ def read_root():
 
 
 @app.get("/getPets/", tags=["General"])
-
-def read_root():
+def get_pets():
     search_params = {
         'type': 'dog',
         'location': 'Milwaukee, WI',
@@ -60,11 +59,6 @@ def read_root():
         })
 
     return {"pets": filtered_animals}
-
-
- 
-
-
 
 @app.get("/test", tags=["General"], response_model=PetAdoptionSurvey)
 def read_test():
