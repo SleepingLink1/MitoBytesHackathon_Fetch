@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Literal
 
-from constants.attributes import *
+from ..constants.attributes import *
 
 class PetCharacteristic(BaseModel):
     activity_level: ActivityLevel

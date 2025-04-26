@@ -1,9 +1,11 @@
 from pydantic import BaseModel
 from uuid import UUID
-from attributes.contact_info import Address, ContactInfo
 from typing import List 
-from entities.pet import Pet
-from attributes.pet_characteristics import PetCharacteristic
+
+from ..entities.pet import Pet
+from ..attributes.pet_characteristics import PetCharacteristic
+from ..attributes.contact_info import ContactInfo
+
 class Customer(BaseModel):
     id: UUID
     name:str
