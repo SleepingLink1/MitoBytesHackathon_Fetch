@@ -1,3 +1,5 @@
+from enum import Enum
+
 class ActivityLevel(str, Enum):
     LOW = "Low"
     MEDIUM = "Medium"
