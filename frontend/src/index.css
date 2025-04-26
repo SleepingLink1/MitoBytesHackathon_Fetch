@@ -5,4 +5,20 @@
 /* Custom styles can go here */
 body {
   @apply bg-gray-50 text-gray-900;
+  background-color: #436367;
 } 
+
+.header {
+  font-family: "MuseoModerno", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.subheader {
+  font-family:'Neue Machina', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.blue {
+  color: #06B5FD;
+}
