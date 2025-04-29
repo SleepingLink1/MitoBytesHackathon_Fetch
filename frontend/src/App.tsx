@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { useAsk } from './hooks/useAsk'
 import ChatBubble from './components/ChatBubble'
 import PetSurveyForm from './components/PetSurveyForm'
+import { useSurvey } from "./hooks/useSurvey";
 
 function App() {
   const [question, setQuestion] = useState('')
   const [surveyAnswers, setSurveyAnswers] = useState({});
   const [submittedQuestion, setSubmittedQuestion] = useState('');
   const { ask, answer, isLoading, error } = useAsk()
+  const { submitSurvey } = useSurvey()
 
   const [page, setPage] = useState(1)
   const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(true)
@@ -34,7 +36,8 @@ function App() {
     setPage(5)
   }
 
-  const submitAnswer = () => {
+  const submitAnswer = async () => {
+    await submitSurvey(surveyAnswers);
     changePage(4)
   }
 

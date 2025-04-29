@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-
+import { useSurvey } from "../hooks/useSurvey";
 type ResponseType = "options" | "string" | "boolean" | "number";
+
 
 interface Option {
   key: string;
@@ -23,34 +24,12 @@ interface PetSurveyFormProps {
 }
 
 export default function PetSurveyForm({ onAnswersChange }: PetSurveyFormProps) {
-  const [questions, setQuestions] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<Answers>({});
+  const { survey, questions } = useSurvey();
 
   useEffect(() => {
     async function fetchQuestions() {
-      // const response = await fetch("/api/questions"); // <-- Adjust API endpoint
-      //const data: Question[] = await response.json();
-      const data = [
-        {
-          name: "weight_limit",
-          description: "do you have a weight restriction for your dog?",
-          responseType: "boolean",
-          options: null
-        },
-        {
-          name: "coffee",
-          description: "what coffees does your dog like?",
-          responseType: "options",
-          options: [ { "key":'sumatra', "value":'sumatra'}, {'key':'columbian','value':'columbian'}]
-        },
-        {
-          name: "how_many",
-          description: "how many dogs?",
-          responseType: "number",
-          options: null
-        },
-        ];
-      setQuestions(data);
+      await survey();
     }
 
     fetchQuestions();
@@ -62,50 +41,16 @@ export default function PetSurveyForm({ onAnswersChange }: PetSurveyFormProps) {
         ...prev,
         [name]: value
       };
-      onAnswersChange(updated);
+      
+      // quick hack to kick the update off the render cycle
+      setTimeout(() => { onAnswersChange(updated); })
       return updated;
     });
-  }
 
-  async function handleSubmit(e: React.FormEvent) {
-    const response = await fetch("http://localhost:8000/submit-survey", {
-      method: "POST",
-      body: JSON.stringify({
-        "grooming_spending": "$0-50",
-        "running_miles": "0-1",
-        "couch_fur_happiness": 0,
-        "vacuum_times": "0",
-        "happy_with_large_dogs": true,
-        "happy_with_small_dogs": true,
-        "hoa_pet_contract": "string",
-        "other_pets": [
-          "cat"
-        ],
-        "kids_around_friend": true,
-        "travel_distance": "0 miles",
-        "home_address": "string",
-        "paid_transport": true,
-        "envisioned_age": "0-5months",
-        "plan_to_travel": true,
-        "journey_payment": "$0-$50",
-        "food_spending": 0,
-        "has_yard": true,
-        "personality_traits": "string",
-        "active_dogs_enjoyment": "very much",
-        "value_compatibility": "very much",
-        "cute_dogs": "very much",
-        "intact_requirement": true,
-        "only_rescue": true,
-        "gender_preference": "a female"
-      }, null, 2)
-    });
-    console.log(response);
-    e.preventDefault();
-    console.log("Submitting JSON:", JSON.stringify(answers, null, 2));
   }
 
   return (
-    <form className="space-y-4 p-4" onSubmit={handleSubmit}>
+    <form className="space-y-4 p-4">
       {questions.map((q) => (
         <div key={q.name} className="flex flex-col space-y-2">
           <label className="font-semibold">{q.description}</label>
@@ -135,7 +80,7 @@ export default function PetSurveyForm({ onAnswersChange }: PetSurveyFormProps) {
             >
               <option value="">Select an option</option>
               {q.options.map((opt) => (
-                <option key={opt.key} value={opt.key}>
+                <option key={opt.key} value={opt.value}>
                   {opt.value}
                 </option>
               ))}
@@ -143,7 +88,6 @@ export default function PetSurveyForm({ onAnswersChange }: PetSurveyFormProps) {
           )}
         </div>
       ))}
-      <input type="submit" />
     </form>
   );
 }
