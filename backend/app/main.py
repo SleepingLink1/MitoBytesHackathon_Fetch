@@ -6,6 +6,7 @@ from app.services.questionaire import *
 from app.services.questionaireIntakeModel import *
 
 from app.routers import llm
+from app.routers import survey
 import PetFinderAPI
 
 app = FastAPI(
@@ -106,41 +107,11 @@ def read_test():
         gender_preference=GenderPreference.FEMALE
     )
 
-@app.get("/survey", tags=["Pet Adoption Survey"])
-def read_survey(): 
-    fields = PetAdoptionSurvey.__annotations__
-    response = []
-
-    for field_name, field_type in fields.items():
-        field_info = PetAdoptionSurvey.__fields__.get(field_name)
-        if isinstance(field_type, type) and issubclass(field_type, Enum):
-            enum_values = [{"key": e.name, "value": e.value} for e in field_type]  # Extract enum values
-        else:
-            enum_values = None
-
-        response_item = {
-            "name": field_name,
-            "description": field_info.description if field_info else "",
-            "responseType": "options" if enum_values else "boolean" if field_type == bool else "string",
-            "options": enum_values,
-        }
-        response.append(response_item)
-
-    return response
-
 @app.post("/test", tags=["General"], response_model=PetAdoptionSurvey)
 def read_test(survey: PetAdoptionSurvey):
 
     return survey
 
-
-@app.post("/submit-survey")
-async def post_survey(survey: QuestionaireModel):
-    try:
-        return {"message": "Survey posted successfully!"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"LLM error: {str(e)}")
-
-
 # Include routers
 app.include_router(llm.router, prefix="/api") 
+app.include_router(survey.router, prefix="/api") 

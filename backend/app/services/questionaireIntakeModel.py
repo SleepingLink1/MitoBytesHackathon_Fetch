@@ -71,30 +71,30 @@ class GenderPreference(Enum):
 # --- Pydantic Model for Returning Responses ---
 
 class QuestionaireModel(BaseModel):
-    grooming_spending: GroomingSpending
-    running_miles: RunningMiles
-    couch_fur_happiness: int
-    vacuum_times: VacuumTimes
-    happy_with_large_dogs: bool
-    happy_with_small_dogs: bool
-    hoa_pet_contract: str
-    other_pets: List[OtherPets]
-    kids_around_friend: bool
-    travel_distance: TravelDistance
-    home_address: str
-    paid_transport: bool
-    envisioned_age: EnvisionedAge
-    plan_to_travel: bool
-    journey_payment: JourneyPayment
-    food_spending: int
-    has_yard: bool
-    personality_traits: str
-    active_dogs_enjoyment: ActiveDogsEnjoyment
-    value_compatibility: CompatibilityValue
-    cute_dogs: CuteDogsLove
-    intact_requirement: Optional[bool]
-    only_rescue: bool
-    gender_preference: GenderPreference
+    grooming_spending: Optional[GroomingSpending]  = None
+    running_miles: Optional[RunningMiles]= None
+    couch_fur_happiness: Optional[int]= None
+    vacuum_times: Optional[VacuumTimes]= None
+    happy_with_large_dogs: Optional[bool]= None
+    happy_with_small_dogs: Optional[bool]= None
+    hoa_pet_contract: Optional[str]= None
+    other_pets: Optional[List[OtherPets]]= None
+    kids_around_friend: Optional[bool]= None
+    travel_distance: Optional[TravelDistance]= None
+    home_address: Optional[str]= None
+    paid_transport: Optional[bool]= None
+    envisioned_age: Optional[EnvisionedAge]= None
+    plan_to_travel: Optional[bool]= None
+    journey_payment: Optional[JourneyPayment]= None
+    food_spending: Optional[int]= None
+    has_yard: Optional[bool]= None
+    personality_traits: Optional[str]= None
+    active_dogs_enjoyment: Optional[ActiveDogsEnjoyment]= None
+    value_compatibility: Optional[CompatibilityValue]= None
+    cute_dogs: Optional[CuteDogsLove]= None
+    intact_requirement: Optional[bool]= None
+    only_rescue: Optional[bool]= None
+    gender_preference: Optional[GenderPreference]= None
 
     class Config:
         use_enum_values = False
